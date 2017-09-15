@@ -32,13 +32,13 @@ public class math extends AppCompatActivity {
             public void onClick(View v) {
                 if(!meter.getText().toString().isEmpty()){
                     try{
-                        foot.setText(String.valueOf(df.format(Double.parseDouble(meter.getText().toString())/3.28)));
+                        foot.setText(String.valueOf(df.format(Double.parseDouble(meter.getText().toString())*3.28)));
                     }catch (Exception e){
                         foot.setText("ERROR");
                     }
                 } else if(!foot.getText().toString().isEmpty()){
                     try{
-                        meter.setText(String.valueOf(df.format(Double.parseDouble(foot.getText().toString())*3.28)));
+                        meter.setText(String.valueOf(df.format(Double.parseDouble(foot.getText().toString())/3.28)));
                     }catch (Exception e){
                         meter.setText("ERROR");
                     }

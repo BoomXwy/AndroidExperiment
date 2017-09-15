@@ -14,4 +14,12 @@
         android:id="@+id/math"
         android:title="Math"/>
 
+    <item
+        android:id="@+id/help"
+        android:title="Help"/>
+
+    <item
+        android:id="@+id/exit"
+        android:title="Exit"/>
+
 </menu>

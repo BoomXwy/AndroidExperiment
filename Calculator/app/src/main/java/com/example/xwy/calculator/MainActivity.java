@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.StringReader;
 import java.util.Stack;
@@ -95,6 +96,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent4 = new Intent(MainActivity.this,math.class);
                 startActivity(intent4);
                 break;
+            case R.id.help:
+                Toast.makeText(this, "Please send email to developers", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.exit:
+                finish();
+                break;
             default:
                 break;
         }
@@ -106,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.clean:
                 builder.delete(0,builder.length());
-                display.setText(builder);
+                display.setText("0");
                 opnd.clear();
                 optr.clear();
                 break;
@@ -115,26 +122,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     builder.delete(builder.length() - 1, builder.length());
                     display.setText(builder);
                 }
+                if(builder.length() == 0){
+                    display.setText("0");
+                }
                 break;
             case R.id.div:
+                if(builder.toString().isEmpty() || builder.toString().substring(builder.length()-1).equals(".")) break;
                 if(permitOptr(builder.toString())){
                     builder.append("/");
                     display.setText(builder.toString());
                 }
                 break;
             case R.id.mul:
+                if(builder.toString().isEmpty() || builder.toString().substring(builder.length()-1).equals(".")) break;
                 if(permitOptr(builder.toString())){
                     builder.append("*");
                     display.setText(builder.toString());
                 }
                 break;
             case R.id.sub:
+                if(builder.toString().isEmpty() || builder.toString().substring(builder.length()-1).equals(".")) break;
                 if(permitOptr(builder.toString())){
                     builder.append("-");
                     display.setText(builder.toString());
                 }
                 break;
             case R.id.add:
+                if(builder.toString().isEmpty() || builder.toString().substring(builder.length()-1).equals(".")) break;
                 if(permitOptr(builder.toString())){
                     builder.append("+");
                     display.setText(builder.toString());
@@ -153,8 +167,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.spot:
-                if(builder.toString().substring(builder.length()-1).equals(".")) break;
                 if(builder.toString().isEmpty()) builder.append("0");
+                if(builder.toString().substring(builder.length()-1).equals(".")) break;
                 if(builder.toString().substring(builder.length()-1).equals(")")){
                     builder.append("*");
                     builder.append(0);
@@ -163,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 display.setText(builder);
                 break;
             case R.id.equal:
-                if(builder.toString().isEmpty() || ("+-*/".contains(builder.toString().substring(builder.length()-1)))){
+                if(builder.toString().isEmpty() || ("+-*/.".contains(builder.toString().substring(builder.length()-1)))){
                     display.setText("ERROR");
                     break;
                 }else {
@@ -252,12 +266,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean regularBrackets(String builders,String brackets){
         if(brackets.equals("(")){
             if(builders.isEmpty()) return true;
+            if(builder.toString().substring(builder.length()-1).equals(".")) return false;
             if("0123456789)".contains(builders.substring(builders.length()-1))){
                 builder.append("*");
             }
             return true;
         }else if(brackets.equals(")")){
-            if("+-*/(".contains(builders.substring(builders.length()-1))) return false;
+            if((!builders.isEmpty()) && "+-*/(.".contains(builders.substring(builders.length()-1))) return false;
             if((appearNumber(builders,"(")-appearNumber(builders,")"))>0){
                 return true;
             }else{
